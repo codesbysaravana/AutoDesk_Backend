@@ -1,0 +1,47 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+env/
+venv/
+ENV/
+.venv/
+
+# Environment variables
+.env
+.env.*
+
+# VS Code / PyCharm configs
+.vscode/
+.idea/
+
+# macOS files
+.DS_Store
+
+# Logs and local runtime
+*.log
+*.pid
+*.sqlite3
+
+# Python egg metadata
+*.egg-info/
+dist/
+build/
+
+# Cache and test coverage
+.cache/
+coverage/
+htmlcov/
+.tox/
+
+# Mypy / Pyright
+.mypy_cache/
+.pyright/
+
+# Virtual environment folders (ignore these)
+env/
+venv/
+ENV/
+.venv/
