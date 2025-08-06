@@ -7,7 +7,7 @@ from git import Repo, GitCommandError
 from urllib.parse import urlparse
 import datetime
 
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN") or "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"
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN") or "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"
 
 def auto_merge_pr(gh_repo, branch: str, base_branch: str = "main"):
     """

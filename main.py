@@ -7,8 +7,17 @@ from utils.dockerfile_generator import generate_dockerfile
 from utils.github_push import create_pr_with_dockerfile
 from utils.aws_deploy import deploy_to_aws_ec2
 import os
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or ["http://localhost:3000"] for dev
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class DeployRequest(BaseModel):
     github_url: str
@@ -17,10 +26,13 @@ class DeployRequest(BaseModel):
     aws_region: str = "us-east-1"
     github_pat: str  # <-- NEW FIELD
 
-
 @app.get("/")
 async def root():
     return {"message": "Welcome to AutoDock AI! Use /deploy to deploy your app."}
+
+@app.get("/health")
+async def health():
+    return {"status": "AutoDock backend is running ✅"}
 
 @app.post("/deploy")
 async def deploy_app(req: DeployRequest):

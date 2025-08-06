@@ -1,2 +1,26 @@
 uvicorn
 fastapi
+# FastAPI Web Framework
+fastapi==0.110.2
+uvicorn==0.30.0
+
+# AWS SDK for Python
+boto3==1.34.121
+
+# SSH Access to EC2
+paramiko==3.4.0
+
+# GitHub API
+PyGithub==2.3.0
+
+# Git operations (cloning, commits, branches)
+GitPython==3.1.42
+
+# HTTP Requests (optional but used in many integrations)
+requests==2.31.0
+
+# .env loading (optional, for tokens or secrets)
+python-dotenv==1.0.1
+
+
+# notes $ source venv/scripts/activate  $ uvicorn main:app --reload
