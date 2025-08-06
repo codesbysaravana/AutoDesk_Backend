@@ -7,7 +7,7 @@ from git import Repo, GitCommandError
 from urllib.parse import urlparse
 import datetime
 
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN") or "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"
+# GITHUB_TOKEN = os.getenv("GITHUB_TOKEN") or "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"
 
 def auto_merge_pr(gh_repo, branch: str, base_branch: str = "main"):
     """
@@ -28,14 +28,14 @@ def auto_merge_pr(gh_repo, branch: str, base_branch: str = "main"):
 
 
 def create_pr_with_dockerfile(github_url: str, dockerfile_path: str, github_pat: str) -> str:
-    if not GITHUB_TOKEN:
-        raise EnvironmentError("Missing GITHUB_TOKEN in environment variables.")
+    if not github_pat:
+        raise EnvironmentError("Missing required `github_pat` argument.")
 
     repo_name = github_url.rstrip("/").split("/")[-2] + "/" + github_url.rstrip("/").split("/")[-1].replace(".git", "")
     temp_dir = tempfile.mkdtemp()
 
-    # Clone using token
-    clone_url = github_url.replace("https://", f"https://{GITHUB_TOKEN}@")
+    # ✅ Use the token passed via github_pat for HTTPS auth
+    clone_url = github_url.replace("https://", f"https://{github_pat}@")
     repo = Repo.clone_from(clone_url, temp_dir)
 
     # Git identity config (needed for GitHub commits)
@@ -83,10 +83,8 @@ def create_pr_with_dockerfile(github_url: str, dockerfile_path: str, github_pat:
         else:
             raise e
 
-    # Create PR
-    github_token = github_pat or os.getenv("GITHUB_TOKEN")
-    g = Github(github_token)
-
+    # ✅ Use github_pat for GitHub API client
+    g = Github(github_pat)
     gh_repo = g.get_repo(repo_name)
 
     # Check if PR already exists
@@ -103,5 +101,5 @@ def create_pr_with_dockerfile(github_url: str, dockerfile_path: str, github_pat:
 
     # ✅ Auto-merge right after creating PR
     auto_merge_pr(gh_repo, branch=new_branch)
-
+    
     return pr.html_url
